@@ -1,0 +1,878 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>arXiv 论文速递</title><style>
+:root {
+  --bg:#f8fafc; --card:#ffffff; --text:#0f172a; --muted:#667085; --border:#e5e7eb; --acc:#2563eb;
+}
+:root[data-theme="dark"] {
+  --bg:#0b0f17; --card:#111827; --text:#e5e7eb; --muted:#9ca3af; --border:#1f2937; --acc:#2563eb;
+}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);
+  font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;line-height:1.6;}
+.container{max-width:900px;margin:0 auto;padding:18px;}
+.header{display:flex;gap:10px;justify-content:space-between;align-items:center;margin:8px 0 16px;flex-wrap:wrap}
+h1{font-size:22px;margin:0}
+.badge{font-size:12px;color:#111827;background:var(--acc);padding:2px 8px;border-radius:999px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px 18px;margin:14px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.title{font-weight:700;margin:0 0 6px 0;font-size:18px}
+.meta-line{color:var(--muted);font-size:13px;margin:2px 0}
+.links a{color:var(--acc);text-decoration:none;margin-right:12px}
+.detail{margin-top:10px;background:rgba(2,6,23,.03);border:1px solid var(--border);border-radius:10px;padding:8px 10px}
+summary{cursor:pointer;color:var(--acc)}
+.mono{white-space:pre-wrap;background:rgba(2,6,23,.03);border:1px solid var(--border);padding:10px;border-radius:10px}
+.row{display:grid;grid-template-columns:1fr;gap:12px}
+@media (min-width: 860px) {
+  .row-2{grid-template-columns:1fr 1fr}
+}
+.footer{color:var(--muted);font-size:13px;margin:20px 0 10px}
+.hr{height:1px;background:var(--border);margin:14px 0}
+.history-list a{display:block;color:var(--acc);text-decoration:none;margin:4px 0}
+.controls{display:flex;gap:8px;align-items:center}
+.btn{border:1px solid var(--border);background:var(--card);padding:6px 10px;border-radius:10px;cursor:pointer;color:var(--text)}
+.btn:hover{border-color:var(--acc)}
+</style>
+<script>
+(function() {
+  const root = document.documentElement;
+  function apply(t) {
+    if (t==='dark') root.setAttribute('data-theme','dark');
+    else if (t==='light') root.removeAttribute('data-theme');
+    else {
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
+        root.setAttribute('data-theme','dark');
+      else root.removeAttribute('data-theme');
+    }
+  }
+  let t = localStorage.getItem('theme') || 'light';
+  if (!['light','dark','auto'].includes(t)) t='light';
+  apply(t);
+  window.__toggleTheme = function() {
+    let cur = localStorage.getItem('theme') || 'light';
+    if (cur==='light') cur='dark';
+    else if (cur==='dark') cur='auto';
+    else cur='light';
+    localStorage.setItem('theme', cur);
+    apply(cur);
+    const el=document.getElementById('theme-label');
+    if(el) el.textContent = cur.toUpperCase();
+  }
+  window.__expandAll = function(open) {
+    document.querySelectorAll('details').forEach(d => d.open = !!open);
+  }
+})();
+</script>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>arXiv 论文速递</h1>
+      <div style="display:flex;gap:10px;align-items:center">
+        
+<div class="controls">
+  <button class="btn" onclick="__toggleTheme()">Theme: <span id="theme-label" style="margin-left:6px">AUTO</span></button>
+  <button class="btn" onclick="__expandAll(true)">Expand All</button>
+  <button class="btn" onclick="__expandAll(false)">Collapse All</button>
+</div>
+
+        <span class="badge">2026-10-05 06:12</span>
+      </div>
+    </div>
+    <div class="hr"></div>
+    <div>Snapshot: 20261005_0612</div>
+    <div class="row"><div class="card">
+<div class="title">Decoding Looped Transformers Better for (Almost) Free</div>
+<div class="meta-line">Authors: Weihao Liu, Huangjie Zheng, Tianrong Chen, Rohit Dilip, Richard He Bai, Yizhu Jiao, Yuyang Wang, Ruixiang Zhang</div>
+<div class="meta-line">First: 2026-10-01T17:58:38+00:00 · Latest: 2026-10-01T17:58:38+00:00</div>
+<div class="meta-line">Comments: 32 pages, 19 figures</div>
+<div class="links" style="margin-top:8px"><a href="https://arxiv.org/abs/2610.02185v1">Abs</a> · <a href="https://arxiv.org/pdf/2610.02185v1">PDF</a> · <a href="https://huggingface.co/huggingface">Code1</a> · <a href="https://huggingface.co/docs/hub/spaces">Code2</a></div>
+<details class="detail"><summary>Abstract</summary>
+<div class="mono">Looped Transformers achieve parameter efficiency by repeatedly executing a shared block across recurrent loops. Each loop yields an intermediate representation decodable for the same next token, yet standard decoding discards earlier states. Because earlier loops embody less computation, recurrence inherently supplies aligned weak-and-strong prediction pairs without auxiliary models or external training. We introduce LoopCD, a training-free contrastive decoding framework that guides token selection by contrasting the final prediction with an earlier recurrent pass, operating either in logit space with one extra output pass (LoopCD-Logits) or in hidden-state space with zero output overhead (LoopCD-Hidden). Across four looped Transformer families, LoopCD delivers substantial, consistent gains at full recurrent depth: LoopCD-Logits raises Ouro-2.6B-Thinking&#x27;s AIME 2024 pass@1 from 61.88% to 73.33%, while LoopCD-Hidden lifts Huginn&#x27;s HumanEval pass@1 from 22.56% to 31.71%. Crucially, these performance gains enable halving the number of recurrent loops while still matching or exceeding full-depth unguided baselines, reducing forward FLOPs by 22.5% to 48.2%. By transforming intermediate recurrent states into effective guidance signals, LoopCD achieves superior decoding quality while substantially reducing inference compute.</div></details>
+<details class="detail"><summary>Summary / 总结</summary>
+<div class="mono">Looped Transformers achieve parameter efficiency by repeatedly executing a shared block across recurrent loops.</div>
+</details>
+</div>
+<div class="card">
+<div class="title">DuoMind: Enabling Distributed Multi-Robot Coordination with Semantic Communication</div>
+<div class="meta-line">Authors: Hanchu Zhou, Dechen Gao, Hang Wang, Brendan Lynch, Boqi Zhao, Qiyao Ma, Raman Goyal, Junshan Zhang</div>
+<div class="meta-line">First: 2026-10-01T17:53:09+00:00 · Latest: 2026-10-01T17:53:09+00:00</div>
+<div class="links" style="margin-top:8px"><a href="https://arxiv.org/abs/2610.02161v1">Abs</a> · <a href="https://arxiv.org/pdf/2610.02161v1">PDF</a> · <a href="https://huggingface.co/huggingface">Code1</a> · <a href="https://huggingface.co/docs/hub/spaces">Code2</a></div>
+<details class="detail"><summary>Abstract</summary>
+<div class="mono">Vision-language models (VLMs) and vision-language-action models (VLAs) have recently driven rapid progress in general-purpose robots, yet most progress has focused on single-robot settings. Extending these capabilities to multi-robot systems remains challenging because robots must coordinate long-horizon behaviors while maintaining reliable, fine-grained execution. We introduce DuoMind, a distributed hierarchical framework for multi-robot coordination through semantic communication. Each robot uses a VLA-based action model for low-level execution and a VLM-based orchestrator for high-level reasoning and inter-agent coordination. At each planning step, the orchestrator at each robot reasons over the task instruction, local observations, and messages received from other robots. It then generates low-level instructions for the action model and semantic messages for peer robots. This architecture exploits the complementary strengths of pretrained models by combining the semantic reasoning capabilities of VLMs with the precise action-generation capabilities of VLAs. To address the scarcity of benchmarks for multi-robot coordination, we further develop RoboPoly, a benchmark comprising long-horizon manipulation tasks that require coordinated, closed-loop execution under distributed control. Experiments on RoboPoly and RoboTwin demonstrate that DuoMind improves multi-robot task performance, while ablation studies confirm the contributions of hierarchical orchestration and semantic communication. More details are available on our project page.</div></details>
+<details class="detail"><summary>Summary / 总结</summary>
+<div class="mono">Vision-language models (VLMs) and vision-language-action models (VLAs) have recently driven rapid progress in general-purpose robots, yet most progress has focused on single-robot settings.</div>
+</details>
+</div>
+<div class="card">
+<div class="title">MIRTO: a registration-gated, multiverse-tested evaluation protocol for unsupervised anomaly segmentation in brain MRI</div>
+<div class="meta-line">Authors: Negin Kafee Hernashki, Soumick Chatterjee</div>
+<div class="meta-line">First: 2026-10-01T17:44:22+00:00 · Latest: 2026-10-01T17:44:22+00:00</div>
+<div class="links" style="margin-top:8px"><a href="https://arxiv.org/abs/2610.02136v1">Abs</a> · <a href="https://arxiv.org/pdf/2610.02136v1">PDF</a> · <a href="https://huggingface.co/huggingface">Code1</a> · <a href="https://huggingface.co/docs/hub/spaces">Code2</a></div>
+<details class="detail"><summary>Abstract</summary>
+<div class="mono">Unsupervised anomaly detection (UAD) methods for brain MRI are ranked by a single score, yet that score rests on choices that are rarely reported: how each anomaly map is aligned with the reference, how and on which data the threshold is set, and which false-positive budget, metric, aggregation and lesion definition are used. We present MIRTO, an evaluation protocol that makes these choices explicit and measures their effect. It gates the geometry of every comparison with a registration check and label-free diagnostics of known power, sets thresholds on validation data alone and reports the false-positive volume actually realised on test, repeats each comparison over 15,552 defensible evaluation pipelines, and attaches paired subject-bootstrap intervals with multiplicity control. Applied to four UAD methods trained on the same healthy data and tested on 312 BraTS 2020 subjects, MIRTO showed that an axis-order mismatch between stored maps and the reference lowered a diffusion model&#x27;s voxel AUROC from 0.873 to 0.583 whilst barely moving its slice-level AUROC. Within each metric, the method explained at least 0.95 of the variance in voxel AUROC and AUPRC and 0.77 in Dice, but only 0.14 in lesion sensitivity, where the lesion definition and hit criterion dominated. A Dice advantage that was significant at validation thresholds vanished at equal realised false-positive burden, and an exact identity attributes it to threshold transfer. A training-free change to REFLECT&#x27;s latent aggregation raised Dice at equal burden by 0.052. Nine hypotheses were tested against explicit criteria; because the same cohort served to develop the protocol, all inference is exploratory.</div></details>
+<details class="detail"><summary>Summary / 总结</summary>
+<div class="mono">Unsupervised anomaly detection (UAD) methods for brain MRI are ranked by a single score, yet that score rests on choices that are rarely reported: how each anomaly map is aligned with the reference, how and on which data the threshold is set, and which false-positive budget, metric, aggregation and lesion definition are used.</div>
+</details>
+</div>
+<div class="card">
+<div class="title">UniGuardian: A Unified Defense for Detecting Prompt Injection, Backdoor Attacks and Adversarial Attacks in Large Language Models</div>
+<div class="meta-line">Authors: Huawei Lin, Yingjie Lao, Tony Geng, Tan Yu, Weijie Zhao</div>
+<div class="meta-line">First: 2025-02-18T18:59:00+00:00 · Latest: 2026-10-01T17:30:02+00:00</div>
+<div class="meta-line">Comments: 25 Pages, 13 Figures, 11 Tables. Accepted to Findings of AACL-IJCNLP 2026. Keywords: Attack Defending, Security, Prompt Injection, Backdoor Attacks, Adversarial Attacks, Prompt Trigger Attacks</div>
+<div class="links" style="margin-top:8px"><a href="https://arxiv.org/abs/2502.13141v2">Abs</a> · <a href="https://arxiv.org/pdf/2502.13141v2">PDF</a> · <a href="https://huggingface.co/huggingface">Code1</a> · <a href="https://huggingface.co/docs/hub/spaces">Code2</a></div>
+<details class="detail"><summary>Abstract</summary>
+<div class="mono">Large Language Models (LLMs) are vulnerable to attacks like prompt injection, backdoor attacks, and adversarial attacks, which manipulate prompts or models to generate harmful outputs. In this paper, departing from traditional deep learning attack paradigms, we explore their intrinsic relationship and collectively term them Prompt Trigger Attacks (PTA). This raises a key question: Given a prompt, can we tell whether a hidden trigger is steering the model&#x27;s behavior? We propose UniGuardian, to the best of our knowledge the first training-free LLM detector to jointly detect successfully activated prompt injection, backdoor, and adversarial attacks without knowing the attack type. Its shared mechanism measures how structured prompt perturbations shift the model&#x27;s output distribution. Additionally, we introduce a single-forward strategy to optimize the detection pipeline, enabling simultaneous attack detection and text generation within a shared batched forward pass at each decoding step. Our experiments confirm that UniGuardian accurately and efficiently identifies trigger-activated prompts in LLMs.</div></details>
+<details class="detail"><summary>Summary / 总结</summary>
+<div class="mono">Large Language Models (LLMs) are vulnerable to attacks like prompt injection, backdoor attacks, and adversarial attacks, which manipulate prompts or models to generate harmful outputs.</div>
+</details>
+</div>
+<div class="card">
+<div class="title">GeoLatent: Geometry-Guided Latent Structuring with Routed Optimization for 3D Reasoning</div>
+<div class="meta-line">Authors: Yakun Zhu, Yi Bin, Yujuan Ding, Zheng Wang, Pengpeng Zeng, Duo Peng, Jingkuan Song, Heng Tao Shen</div>
+<div class="meta-line">First: 2026-10-01T17:22:40+00:00 · Latest: 2026-10-01T17:22:40+00:00</div>
+<div class="meta-line">Comments: 23 pages, 6 figures</div>
+<div class="links" style="margin-top:8px"><a href="https://arxiv.org/abs/2610.02091v1">Abs</a> · <a href="https://arxiv.org/pdf/2610.02091v1">PDF</a> · <a href="https://huggingface.co/huggingface">Code1</a> · <a href="https://huggingface.co/docs/hub/spaces">Code2</a></div>
+<details class="detail"><summary>Abstract</summary>
+<div class="mono">Despite progress in vision-language models, 3D spatial reasoning from 2D images remains challenging. Text-based methods describe intermediate geometry with discrete tokens, limiting fidelity for continuous spatial relations. Continuous latents offer richer representations, but a single latent type does not explicitly separate the cues needed across spatial tasks. Decomposed spatial latents address this by representing position, direction, and global geometry separately under geometric supervision. Yet the geometry representation can still collapse toward one dominant direction, and unrestricted attention can leave the latents underused during answer learning. We introduce GeoLatent, combining Common--Residual Geometry Alignment (CR-GEO) with routed optimization to structure the geometry states while promoting latent-mediated answer learning. CR-GEO separates shared from residual teacher geometry; routed optimization jointly trains geometry and language, temporarily directs visual answer learning through the latents, and restores full attention with geometry supervision. In controlled comparisons, CR-GEO raises geometry effective rank from 1.00 to 3.87, while blocking latent readout at the bottleneck lowers direction accuracy from 89.1% to 25.8% on 128 fixed questions. After recovery, the differentiated geometry representation and latent-mediated visual route remain available alongside direct image access. GeoLatent achieves 73.0% on SPAR-Bench and 72.1% on SPBench, outperforming previously reported methods on both.</div></details>
+<details class="detail"><summary>Summary / 总结</summary>
+<div class="mono">Despite progress in vision-language models, 3D spatial reasoning from 2D images remains challenging.</div>
+</details>
+</div>
+<div class="card">
+<div class="title">Mitigating Object Hallucination in Large Vision-Language Models via False Discovery Controlled Visual Data Splitting</div>
+<div class="meta-line">Authors: Chang Liu, Yu Tian, Rui Xie</div>
+<div class="meta-line">Venue: NeurIPS 2026</div>
+<div class="meta-line">First: 2026-09-30T04:56:09+00:00 · Latest: 2026-10-01T17:09:08+00:00</div>
+<div class="meta-line">Comments: Accepted to NeurIPS 2026</div>
+<div class="links" style="margin-top:8px"><a href="https://arxiv.org/abs/2609.38979v2">Abs</a> · <a href="https://arxiv.org/pdf/2609.38979v2">PDF</a> · <a href="https://huggingface.co/huggingface">Code1</a> · <a href="https://huggingface.co/docs/hub/spaces">Code2</a> · <a href="https://changliu1993-cl.github.io/CORAL/">Project1</a></div>
+<details class="detail"><summary>Abstract</summary>
+<div class="mono">Multiple object hallucination, where large vision-language models (LVLMs) generate objects not supported by the visual input, is a persistent challenge caused by visual uncertainty during decoding. Existing methods reduce hallucinations using contrastive signals, but they rely on heuristics and lack principled control of false positives at the image level. To address this, we propose False Discovery Rate-COntRol of HALlucination (CORAL), a training-free framework that models visual uncertainty using an uncertainty-aware visual data splitting strategy and leverages mirror statistics to quantify visual contrast during decoding. By computing mirror statistics from paired, symmetrically perturbed visual inputs, CORAL estimates spurious object predictions and sets a data-driven threshold to control the expected fraction of false discoveries per image, suppressing hallucinations while retaining high power for truly grounded objects. The framework is flexible, supports multiple LVLMs, and mitigates hallucinations without retraining or supervision. Extensive experiments on multiple benchmarks with several evaluation metrics demonstrate that CORAL consistently outperforms state-of-the-art methods, providing more reliable and robust hallucination control. Code is available at: https://changliu1993-cl.github.io/CORAL/</div></details>
+<details class="detail"><summary>Summary / 总结</summary>
+<div class="mono">Multiple object hallucination, where large vision-language models (LVLMs) generate objects not supported by the visual input, is a persistent challenge caused by visual uncertainty during decoding.</div>
+</details>
+</div>
+<div class="card">
+<div class="title">HydroJEV: A one-second, training-free screen for cyber-attack and fault attribution in water distribution networks</div>
+<div class="meta-line">Authors: Tianwei Mu, Shengyan Jiang, Mingzhe Yuan, Qing Luo, Min Xiao, Wenhong Wang, Jun Li, Manhong Huang</div>
+<div class="meta-line">First: 2026-10-01T16:57:33+00:00 · Latest: 2026-10-01T16:57:33+00:00</div>
+<div class="meta-line">Comments: 41 pages, 19 figures</div>
+<div class="links" style="margin-top:8px"><a href="https://arxiv.org/abs/2610.02048v1">Abs</a> · <a href="https://arxiv.org/pdf/2610.02048v1">PDF</a> · <a href="https://huggingface.co/huggingface">Code1</a> · <a href="https://huggingface.co/docs/hub/spaces">Code2</a></div>
+<details class="detail"><summary>Abstract</summary>
+<div class="mono">When a SCADA alarm is raised in a water distribution network, operators must decide quickly whether it reflects a cyberattack, a physical fault, a normal transient or a faulty sensor. Supervised classifiers need labelled incidents that utilities rarely have, and frontier large language models (LLMs) take tens of seconds per decision. We tested whether Jev, a training-free model that returns class probabilities in about one second, can serve as the first tier of this triage. On a four-class cause-attribution benchmark built on the C-Town network in EPANET, Jev was compared with a hand-written rule tree, a supervised classifier and seven cloud LLMs on identical evidence in four sealed, pre-registered rounds. With only a label-free prior correction, Jev matched the rule tree (macro-F1 0.62-0.64 against 0.56-0.61 in distribution) and exceeded the supervised classifier by 0.36-0.42 on event subtypes absent from its labels, in all four rounds, and it outperformed the classifier whenever fewer than about four labelled events per class were available. Jev also decided 20-40 times faster than frontier LLMs. Accepting only benign Jev verdicts confirmed by the rule tree spared an LLM reviewer 35-38% of windows on fresh sealed sets without loss of macro-F1. Transferred unchanged to two further networks, this gated cascade stayed within the non-inferiority margin of its reviewer on all four sets. A fast, training-free screen can therefore take over about a third of the review load in SCADA anomaly triage while preserving the accuracy of deliberate review.</div></details>
+<details class="detail"><summary>Summary / 总结</summary>
+<div class="mono">When a SCADA alarm is raised in a water distribution network, operators must decide quickly whether it reflects a cyberattack, a physical fault, a normal transient or a faulty sensor.</div>
+</details>
+</div>
+<div class="card">
+<div class="title">DiDE:Direct Injection with Color-Texture DEcoupling for 3D Stylization</div>
+<div class="meta-line">Authors: Tao Wu, Alexandra Gomez-Villa, Senmao Li, Yaxing Wang, Joost van de Weijer, Kai Wang</div>
+<div class="meta-line">Venue: NeurIPS 2026</div>
+<div class="meta-line">First: 2026-10-01T16:55:19+00:00 · Latest: 2026-10-01T16:55:19+00:00</div>
+<div class="meta-line">Comments: Accepted to NeurIPS 2026</div>
+<div class="links" style="margin-top:8px"><a href="https://arxiv.org/abs/2610.02044v1">Abs</a> · <a href="https://arxiv.org/pdf/2610.02044v1">PDF</a> · <a href="https://huggingface.co/huggingface">Code1</a> · <a href="https://huggingface.co/docs/hub/spaces">Code2</a></div>
+<details class="detail"><summary>Abstract</summary>
+<div class="mono">Recent advances in rectified flow-based image-to-3D generative models have enabled high-fidelity 3D asset generation. Building on this, a growing line of work has exploited these strong 3D priors for training-free stylization, transferring visual attributes from a reference image onto a generated 3D asset. However, existing methods enforce an all-or-nothing paradigm: color and texture are transferred jointly, with no mechanism to control them independently -- a limitation we formalize as Disentangled 3D Stylization(Disen3D). To address this, we propose DiDE, the first training-free framework for Disen3D. Key to our approach is the observation that the structured latent space of image-to-3D models is overcomplete with respect to texture: texture information occupies only a small subset of the style-significant channels, leaving a free subspace available for independent color encoding. DiDE exploits this via a channel partition mechanism that processes a content image, a texture reference, and a color reference through dedicated branches and composes both style signals interference-free at every self-attention layer, preserving content geometry throughout. Experiments on Disen3D-Bench, our newly collected multi-reference benchmark, show that DiDE consistently outperforms 2D and 3D stylization baselines in color fidelity, texture transfer, and content preservation.</div></details>
+<details class="detail"><summary>Summary / 总结</summary>
+<div class="mono">Recent advances in rectified flow-based image-to-3D generative models have enabled high-fidelity 3D asset generation.</div>
+</details>
+</div>
+<div class="card">
+<div class="title">Task-Adaptive Grounded 3D-Programmers Using 2D VLMs</div>
+<div class="meta-line">Authors: Arman Raayatsanati, Sombit Dey, Anna-Maria Halacheva, Jan-Nico Zaech, Luc Van Gool, Danda Pani Paudel</div>
+<div class="meta-line">First: 2026-10-01T16:43:17+00:00 · Latest: 2026-10-01T16:43:17+00:00</div>
+<div class="meta-line">Comments: 18 pages, 9 figures, 11 tables</div>
+<div class="links" style="margin-top:8px"><a href="https://arxiv.org/abs/2610.02021v1">Abs</a> · <a href="https://arxiv.org/pdf/2610.02021v1">PDF</a> · <a href="https://huggingface.co/huggingface">Code1</a> · <a href="https://huggingface.co/docs/hub/spaces">Code2</a></div>
+<details class="detail"><summary>Abstract</summary>
+<div class="mono">Recent vision-language models (VLMs) exhibit remarkable generalization and reasoning abilities, yet 3D understanding in these models is limited by data scale, training diversity, and reasoning capacity. Instead of naively extending these models into 3D, we take a different approach: we enable powerful 2D VLMs to operate reliably in 3D by introducing 3D grounding and iterative feedback loops with two novel concepts: Canonical Coordinate Framing (CCF) and Task-Adaptive Feedback (TAF). CCF serves as a unified visual representation that anchors both inputs and outputs to a shared Euclidean coordinate system, solving common challenges in 3D grounding such as axis ambiguity, inconsistent metric scale, and floating references. Complementary to this structured framing of the 3D inputs, TAF closes the reasoning loop with task-adaptive dynamic feedback that enables 2D VLMs to perform varied open-vocabulary tasks within their native visual context.
+  Building on this foundation, we introduce 3D-Prog, a 3D understanding, reasoning, and generation framework that jointly employs the capabilities of CCF and TAF together with powerful VLMs. Without requiring any retraining, 3D-Prog performs open-vocabulary 3D understanding, manipulation, and generation across both object-level and scene-level tasks. Our experiments show that the joint use of CCF and TAF transforms 2D VLMs into geometry-aware 3D programmers, achieving consistent, interpretable, and high-quality results across diverse 3D tasks.</div></details>
+<details class="detail"><summary>Summary / 总结</summary>
+<div class="mono">Recent vision-language models (VLMs) exhibit remarkable generalization and reasoning abilities, yet 3D understanding in these models is limited by data scale, training diversity, and reasoning capacity.</div>
+</details>
+</div>
+<div class="card">
+<div class="title">Controllable Multi-label Video Safety Detection via Adaptive Tversky Policy Optimization</div>
+<div class="meta-line">Authors: Guangyu Yang, Jingbiao Mei, Mingsheng Sun, Jinghong Chen, Yingtong Bu, Pengda Qin, Da Chen, Bill Byrne</div>
+<div class="meta-line">First: 2026-10-01T16:42:30+00:00 · Latest: 2026-10-01T16:42:30+00:00</div>
+<div class="links" style="margin-top:8px"><a href="https://arxiv.org/abs/2610.02019v1">Abs</a> · <a href="https://arxiv.org/pdf/2610.02019v1">PDF</a> · <a href="https://huggingface.co/huggingface">Code1</a> · <a href="https://huggingface.co/docs/hub/spaces">Code2</a> · <a href="https://bruceyg.github.io/ATPO-project-page/">Project1</a></div>
+<details class="detail"><summary>Abstract</summary>
+<div class="mono">The rapid growth of video-based social media has increased users&#x27; exposure to harmful content, creating a need for reliable automated video safety detection. Although recent Vision-Language Models (VLMs) show strong video understanding capabilities, existing harmful video detection systems face two key limitations: they typically reduce safety detection to binary classification, overlooking the inherently multi-label nature of unsafe videos, and they rely on static training objectives that do not support controllable precision-recall trade-offs, though the desired operating point may vary across moderation pipelines and unsafe categories. To address these gaps, we propose Adaptive Tversky Policy Optimization (ATPO), a reinforcement learning framework for Multi-label Video Safety Detection (Multi-VSD). ATPO introduces the Adaptive Tversky Reward (ATR), which dynamically adjusts false-positive and false-negative penalties during training to enable controllable precision-recall trade-offs. Experiments on SafeWatch-Bench and XD-Violence show that ATPO substantially improves multi-label performance, increasing the Jaccard Index from 40.66 to 75.44 on SafeWatch-Bench-Real. Moreover, ATR enables reliable steering of the precision-recall operating point, supporting deployment scenarios with heterogeneous policy requirements. Code and checkpoints are provided at https://bruceyg.github.io/ATPO-project-page/ .</div></details>
+<details class="detail"><summary>Summary / 总结</summary>
+<div class="mono">The rapid growth of video-based social media has increased users&#x27; exposure to harmful content, creating a need for reliable automated video safety detection.</div>
+</details>
+</div>
+<div class="card">
+<div class="title">From Reasoning Failures to Composable Video Spatial Intelligence</div>
+<div class="meta-line">Authors: Pengzhan Sun, Junbin Xiao, Ramanathan Rajaraman, Shiu-hong Kao, Angela Yao</div>
+<div class="meta-line">First: 2026-10-01T16:31:19+00:00 · Latest: 2026-10-01T16:31:19+00:00</div>
+<div class="links" style="margin-top:8px"><a href="https://arxiv.org/abs/2610.01999v1">Abs</a> · <a href="https://arxiv.org/pdf/2610.01999v1">PDF</a> · <a href="https://huggingface.co/huggingface">Code1</a> · <a href="https://huggingface.co/docs/hub/spaces">Code2</a></div>
+<details class="detail"><summary>Abstract</summary>
+<div class="mono">Spatial reasoning benchmarks evaluate vision-language models across diverse tasks, but task-level scores do not reveal which underlying capabilities account for success or failure. Each task requires recovering spatial evidence, representing geometry, and reasoning over it. We disentangle these capabilities by comparing predicted and ground-truth spatial context under a shared schema and coordinate contract. This comparison reveals four recurring sources of error: inaccurate perception, missing information in the spatial context, selection of the wrong measurement, and errors in reference frames or in tracking position and orientation. Guided by this diagnosis, we develop CROSS, a training-free library of typed geometric operators and spatial skills that function over available evidence to support reliable video spatial reasoning. The resulting library supplies verified context to non-coding VLMs or callable skills to a SpatialClaw agent. We evaluate \methodname{} on five benchmarks. \methodname{} raises the average score from 55.9\% to 60.2\% on ReVSI and improves the SpatialClaw result from 62.8\% to 66.3\% on DSI-Bench. These gains demonstrate that explicit handling of spatial conventions can repair systematic reasoning failures without additional training.</div></details>
+<details class="detail"><summary>Summary / 总结</summary>
+<div class="mono">Spatial reasoning benchmarks evaluate vision-language models across diverse tasks, but task-level scores do not reveal which underlying capabilities account for success or failure.</div>
+</details>
+</div>
+<div class="card">
+<div class="title">Continual Concept Erasure in Diffusion Models by Suppressing Cross-Edit Interference</div>
+<div class="meta-line">Authors: Yongliang Wu, Haori Lu, Jinqi Luo, Wei Cao, Xingyu Zhu, Yaoyao Liu</div>
+<div class="meta-line">First: 2026-10-01T16:27:29+00:00 · Latest: 2026-10-01T16:27:29+00:00</div>
+<div class="meta-line">Comments: 24 pages. Project page: https://continual-erasure.cvmlgroup.web.illinois.edu/</div>
+<div class="links" style="margin-top:8px"><a href="https://arxiv.org/abs/2610.01989v1">Abs</a> · <a href="https://arxiv.org/pdf/2610.01989v1">PDF</a> · <a href="https://huggingface.co/huggingface">Code1</a> · <a href="https://huggingface.co/docs/hub/spaces">Code2</a></div>
+<details class="detail"><summary>Abstract</summary>
+<div class="mono">Concept erasure removes copyright-protected, privacy-sensitive, or otherwise undesirable concepts from pretrained text-to-image diffusion models to support content governance and compliance. As erasure requests arrive over time, models must remove new targets without undoing prior erasures. Existing methods do not constrain interference across edits: residual perturbations outside the retain set interact and accumulate, degrading unrelated generations and sometimes collapsing previously erased targets into noise. We propose CEASE (Continual Erasure via Adaptive Subspace Editing), a training-free method that imposes two subspace constraints on a closed-form solver. CEASE adds the token representation of the shared replacement to the solver&#x27;s invariance matrix and, when interference is detected, projects the current update onto the orthogonal complement of dominant output directions extracted from cumulative past updates. A closed-form decomposition attributes the accumulated interference to repeated activation of the shared replacement and overlap between successive update directions, showing that the two constraints suppress these respective sources. Across continual erasure of celebrities, artistic styles, and instances, CEASE achieves the most consistent erase-preserve trade-off, while existing methods either degrade general generation or insufficiently erase targets.</div></details>
+<details class="detail"><summary>Summary / 总结</summary>
+<div class="mono">Concept erasure removes copyright-protected, privacy-sensitive, or otherwise undesirable concepts from pretrained text-to-image diffusion models to support content governance and compliance.</div>
+</details>
+</div>
+<div class="card">
+<div class="title">Token-Level Video Reinforcement Learning</div>
+<div class="meta-line">Authors: Yifan Wang, Gordon Guocheng Qian, Yanyu Li, Anil Kag, Yun Fu</div>
+<div class="meta-line">First: 2026-10-01T16:22:41+00:00 · Latest: 2026-10-01T16:22:41+00:00</div>
+<div class="links" style="margin-top:8px"><a href="https://arxiv.org/abs/2610.01973v1">Abs</a> · <a href="https://arxiv.org/pdf/2610.01973v1">PDF</a> · <a href="https://huggingface.co/huggingface">Code1</a> · <a href="https://huggingface.co/docs/hub/spaces">Code2</a></div>
+<details class="detail"><summary>Abstract</summary>
+<div class="mono">Reinforcement learning (RL) for video generation usually assigns one scalar reward to an entire sampled video. Yet a video is not uniformly flawed: some visual tokens may already satisfy the prompt, whereas others require correction. A scalar reward cannot localize errors, causing optimization to perturb satisfactory tokens while under-targeting the tokens that actually need to change. We introduce Token-Level Video Reinforcement Learning, TVRL, a framework that derives token-level credit from the reward being optimized. Our key insight is that the answer likelihood of a frozen vision-language model provides both signals: its outputs contribute to the video-level reward, while magnitudes of its video-input gradients reveal which generated video tokens most affect that score. We instantiate TVRL in Group Relative Policy Optimization by averaging prompt-derived question rewards into one group-relative advantage and using detached, question-conditioned token-credit maps to reweight dense denoising-transition log-probabilities inside the clipped policy ratio. On VBench-2.0, TVRL achieves an Overall score of 57.69, outperforming the base model by 3.60 points. TVRL also improves matched GRPO baselines across three SDE samplers (SAGE, Flow, and Dance) by 2.68--3.15 points and across four reward models (VideoAlign, VideoScore2, UnifiedReward2, and Qwen3.5-9B) by 1.33--3.15 points.</div></details>
+<details class="detail"><summary>Summary / 总结</summary>
+<div class="mono">Reinforcement learning (RL) for video generation usually assigns one scalar reward to an entire sampled video.</div>
+</details>
+</div>
+<div class="card">
+<div class="title">RASteer: Retain-Aware Activation Steering for Concept Erasure in Diffusion Models</div>
+<div class="meta-line">Authors: Yongliang Wu, Haori Lu, Yulun Wu, Jinqi Luo, Xingyu Zhu, Yaoyao Liu</div>
+<div class="meta-line">First: 2026-10-01T16:20:09+00:00 · Latest: 2026-10-01T16:20:09+00:00</div>
+<div class="meta-line">Comments: 20 pages. Project page: https://rasteer.cvmlgroup.web.illinois.edu/</div>
+<div class="links" style="margin-top:8px"><a href="https://arxiv.org/abs/2610.01969v1">Abs</a> · <a href="https://arxiv.org/pdf/2610.01969v1">PDF</a> · <a href="https://huggingface.co/huggingface">Code1</a> · <a href="https://huggingface.co/docs/hub/spaces">Code2</a></div>
+<details class="detail"><summary>Abstract</summary>
+<div class="mono">Concept erasure aims to remove a target concept, such as a copyrighted style, a recognizable character, or unsafe content, from a pretrained text-to-image diffusion model while preserving its ability to generate other content. Existing activation steering methods build an erasure direction mainly from the target concept and adjust model activations along it at inference time. However, target and retained concepts often overlap in the model&#x27;s representation space, so this direction also contains shared components that retained concepts rely on. Steering directly along this direction can therefore suppress retained concepts and harm the generation of non-target content. To address this issue, we propose Retain-aware Activation Steering (RASteer), a training-free method. RASteer first builds a retain subspace from the concepts to preserve. Retain-Orthogonal Steering (ROS) then removes components aligned with this subspace from the erasure direction, making steering more specific to the target. Since fully removing the shared components can weaken erasure, we further introduce Overlap-Adaptive Calibration (OAC). At each layer and denoising step, OAC uses the overlap between the erasure direction and the retain subspace to control how much of each shared component is removed, balancing target erasure and concept preservation. Experiments on unsafe-content, instance, and artistic-style erasure across multiple backbones and benchmarks show that RASteer matches or outperforms the activation steering and weight editing baselines we evaluate, achieving a better balance between erasure and preservation.</div></details>
+<details class="detail"><summary>Summary / 总结</summary>
+<div class="mono">Concept erasure aims to remove a target concept, such as a copyrighted style, a recognizable character, or unsafe content, from a pretrained text-to-image diffusion model while preserving its ability to generate other content.</div>
+</details>
+</div>
+<div class="card">
+<div class="title">SIEVE: Selective attention-value Suppression for Vision-Language Models Unlearning</div>
+<div class="meta-line">Authors: Si Qi Goh, Cap Dang Xuan Kiet, Tat-Jen Cham, Kwok-Yan Lam</div>
+<div class="meta-line">First: 2026-10-01T16:16:53+00:00 · Latest: 2026-10-01T16:16:53+00:00</div>
+<div class="links" style="margin-top:8px"><a href="https://arxiv.org/abs/2610.01962v1">Abs</a> · <a href="https://arxiv.org/pdf/2610.01962v1">PDF</a> · <a href="https://huggingface.co/huggingface">Code1</a> · <a href="https://huggingface.co/docs/hub/spaces">Code2</a></div>
+<details class="detail"><summary>Abstract</summary>
+<div class="mono">The ability of vision-language models (VLMs) to associate visual identities with biographical information creates a need for selective unlearning of personally identifiable information (PII) while preserving permitted knowledge about the same individual. This setting is challenging because both sensitive and retained information can share the same visual inputs and intermediate representations. We introduce SIEVE, a simple and effective framework for selective VLM unlearning. SIEVE directly regularizes attention-value representations while also controlling model outputs. SIEVE suppresses attention values for forget examples toward a constant zero, while preserving retain-example representations by matching them to a frozen reference model. These objectives are combined with sequence-level forget and retain supervision, enabling targeted forgetting without largely affecting retained knowledge. Extensive experiments show that SIEVE achieves state-of-the-art performance on unlearning with multiple model-modality settings, while maintaining competitive retained utility. Ablation studies further show that value suppression and negative cross-entropy contribute complementary forgetting signals, while reference-based value matching substantially reduces utility degradation. These results demonstrate that attention values provide an effective intervention point for selective multimodal unlearning when sensitive and retained knowledge are closely related.</div></details>
+<details class="detail"><summary>Summary / 总结</summary>
+<div class="mono">The ability of vision-language models (VLMs) to associate visual identities with biographical information creates a need for selective unlearning of personally identifiable information (PII) while preserving permitted knowledge about the same individual.</div>
+</details>
+</div>
+<div class="card">
+<div class="title">Training-Free Diffusion Planning with Analytical Local Scores</div>
+<div class="meta-line">Authors: Michael Y. Fatemi, Jinhao Liang, Ferdinando Fioretto</div>
+<div class="meta-line">First: 2026-10-01T16:15:15+00:00 · Latest: 2026-10-01T16:15:15+00:00</div>
+<div class="meta-line">Comments: preprint - under review</div>
+<div class="links" style="margin-top:8px"><a href="https://arxiv.org/abs/2610.01959v1">Abs</a> · <a href="https://arxiv.org/pdf/2610.01959v1">PDF</a> · <a href="https://huggingface.co/huggingface">Code1</a> · <a href="https://huggingface.co/docs/hub/spaces">Code2</a></div>
+<details class="detail"><summary>Abstract</summary>
+<div class="mono">Path finding and multi-robot motion planning require trajectories that are smooth, goal-directed, and collision-free in environments with complex geometric constraints. Recent diffusion-based planners have shown that trajectory generation can be cast as iterative denoising which has opened the doors to learning-based approaches that can handle multi-modal trajectory distributions and refine entire trajectories. However, a key limitation is that diffusion planners require training on large collections of feasible trajectories, rendering them map-specific, and difficult to deploy when high-quality demonstrations are unavailable. This paper introduces a training-free diffusion-based motion planner that replaces learned global trajectory scores with analytical local scores derived from obstacle, smoothness, velocity, and inter-agent feasibility terms. The proposed idea relies on a key observation: the score of a trajectory can be reconstructed by considering only local interactions between neighboring waypoints and nearby constraints. This structure exploitation yields a decomposed denoising procedure that retains the optimization structure of classical trajectory methods while inheriting the iterative refinement behavior of diffusion models. Experiments on a large collection of complex environments and large multi-agent planning tasks show that the proposed analytical score produces smooth and feasible trajectories within limited computational costs, for example in generating feasible paths for 300+ agents in environments containing 100+ obstacles in under 6 seconds on a GPU, outperforming strong learning-based and optimization baselines, while avoiding the data requirements of learned diffusion planners.</div></details>
+<details class="detail"><summary>Summary / 总结</summary>
+<div class="mono">Path finding and multi-robot motion planning require trajectories that are smooth, goal-directed, and collision-free in environments with complex geometric constraints.</div>
+</details>
+</div>
+<div class="card">
+<div class="title">Anti-Persona: Disrupting Unauthorized Identity Binding and Recognition in Personalized Vision--Language Models</div>
+<div class="meta-line">Authors: Abhishek Basu, Fahad Shamshad, Karthik Nandakumar</div>
+<div class="meta-line">First: 2026-10-01T16:10:33+00:00 · Latest: 2026-10-01T16:10:33+00:00</div>
+<div class="meta-line">Comments: Code available at https://github.com/iabh1shekbasu/anti-persona</div>
+<div class="links" style="margin-top:8px"><a href="https://arxiv.org/abs/2610.01944v1">Abs</a> · <a href="https://arxiv.org/pdf/2610.01944v1">PDF</a> · <a href="https://github.com/iabh1shekbasu/anti-persona">Code1</a> · <a href="https://huggingface.co/huggingface">Code2</a> · <a href="https://huggingface.co/docs/hub/spaces">Code3</a></div>
+<details class="detail"><summary>Abstract</summary>
+<div class="mono">Few-shot personalization enables large vision--language models (LVLMs) to learn user-specific visual concepts for applications such as personalized retrieval and subject-aware querying. However, it also creates a privacy risk: an adversary can bind a target identity from a few reference images and subsequently detect that identity in new images through natural-language queries. We introduce Anti-Persona, an image-level defense against unauthorized identity binding and recognition in personalized LVLMs. Our key insight is that identity personalization relies on visual features shared across multiple reference images. We aggregate these features into an identity prototype and optimize visually subtle perturbations that disrupt prototype alignment in the vision-encoder space. Spatial smoothing and low-frequency preservation further promote visual fidelity and practical resilience to image compression. The resulting protection does not depend on a specific prompt and supports both proactive anti-personalization and reactive image protection. Experiments on two representative personalized LVLMs demonstrate protection rates of up to $95.0\%$ while preserving visual fidelity. The method remains stable across prompt variations and evaluated identity-query tasks, and improves black-box transfer under encoder mismatch.</div></details>
+<details class="detail"><summary>Summary / 总结</summary>
+<div class="mono">Few-shot personalization enables large vision--language models (LVLMs) to learn user-specific visual concepts for applications such as personalized retrieval and subject-aware querying.</div>
+</details>
+</div>
+<div class="card">
+<div class="title">Fewer Tokens, Better Action: GPT-6 Astra Robot Agents with 14% Higher Success Rate but 65% Fewer Tokens</div>
+<div class="meta-line">Authors: Ruiyang Si, Jianxin Bi, Shunyu Yang, Rui Ni, Wenbo Huang, Qiang Wang, Shulong Jiang, Duomin Wang, Xiuyu Li, Haiwen Feng, Zhen Dong, Daquan Zhou</div>
+<div class="meta-line">First: 2026-10-01T16:07:49+00:00 · Latest: 2026-10-01T16:07:49+00:00</div>
+<div class="links" style="margin-top:8px"><a href="https://arxiv.org/abs/2610.01939v1">Abs</a> · <a href="https://arxiv.org/pdf/2610.01939v1">PDF</a> · <a href="https://huggingface.co/huggingface">Code1</a> · <a href="https://huggingface.co/docs/hub/spaces">Code2</a></div>
+<details class="detail"><summary>Abstract</summary>
+<div class="mono">Vision language model (VLM) agents can control robots through visual feedback and action primitives, but repeated model invocations and redundant observations incur substantial token overhead. We introduce PyRUA-Lean, an interactive code-execution framework that couples feedback-driven primitive composition with selective observation: the agent composes classical robot primitives and learned vision-language-action (VLA) policies into Python cells that perform conditional checks and local retries, returning only explicitly requested images and state feedback for replanning. Across 700 simulated task instances from LIBERO-PRO, RoboTwin 2.0, and RoboCasa365, we compare PyRUA-Lean with a tool-calling baseline using the same GPT-6 Astra planner and underlying robot primitives. Under equal LLM-call budgets, PyRUA-Lean increases overall success from 63.1% to 71.7%. On instances solved by both agents, it uses 49% fewer LLM calls and 65% fewer input tokens.</div></details>
+<details class="detail"><summary>Summary / 总结</summary>
+<div class="mono">Vision language model (VLM) agents can control robots through visual feedback and action primitives, but repeated model invocations and redundant observations incur substantial token overhead.</div>
+</details>
+</div>
+<div class="card">
+<div class="title">MoLE: Mixture of Latent Experts for Complementary Visual Reasoning</div>
+<div class="meta-line">Authors: Yingcheng Liu, Tianyi Jiang, Yujuan Ding, jiangbo Ai, Xun Jiang, Guoqing Wang, Wei Ye, Yi Bin</div>
+<div class="meta-line">First: 2026-10-01T15:54:37+00:00 · Latest: 2026-10-01T15:54:37+00:00</div>
+<div class="links" style="margin-top:8px"><a href="https://arxiv.org/abs/2610.01917v1">Abs</a> · <a href="https://arxiv.org/pdf/2610.01917v1">PDF</a> · <a href="https://huggingface.co/huggingface">Code1</a> · <a href="https://huggingface.co/docs/hub/spaces">Code2</a></div>
+<details class="detail"><summary>Abstract</summary>
+<div class="mono">Latent visual reasoning equips vision--language models with continuous intermediate states that can process visual evidence without explicit textual reasoning traces or repeated image operations. However, existing methods often allow multiple latent tokens to access the same visual evidence through shared value projections, providing no mechanism for them to extract complementary visual information; simply increasing the latent budget can therefore yield redundant latent representations. We argue that effective latent reasoning should encourage different latent tokens to extract complementary visual information, and thereby act as specialized visual experts. Based on this insight, we propose MoLE, a Mixture of Latent Experts framework that controls both what visual evidence each latent visual expert observes and how it transforms that evidence. MoLE isolates latent visual experts during evidence extraction and uses dedicated latent summary experts to aggregate the complementary representations of latent visual experts. A two-stage training pipeline first forces visual evidence through this latent pathway and then restores direct visual access, requiring neither predefined expert roles nor intermediate visual targets. Across five visual reasoning benchmarks, MoLE achieves an average score of 78.6, outperforming data-matched supervised fine-tuning by 4.9 and the strongest evaluated latent visual reasoning baseline at the same latent budget by 3.6. Representation analyses show lower latent-state similarity and more diverse visual attention, while masking the latent pathway reduces average performance by 9.2. These results demonstrate that specializing latent computation is more effective than merely increasing the number of latent tokens.</div></details>
+<details class="detail"><summary>Summary / 总结</summary>
+<div class="mono">Latent visual reasoning equips vision--language models with continuous intermediate states that can process visual evidence without explicit textual reasoning traces or repeated image operations.</div>
+</details>
+</div>
+<div class="card">
+<div class="title">CoFiE: Coarse-to-Fine Evidence Selection for Efficient Streaming Video Understanding</div>
+<div class="meta-line">Authors: Jing Jiang, Yiran Ling, Ruonan Li, Dimitrios Stamoulis, Jie Liu</div>
+<div class="meta-line">Venue: EMNLP 2026</div>
+<div class="meta-line">First: 2026-09-03T11:14:21+00:00 · Latest: 2026-10-01T15:02:58+00:00</div>
+<div class="meta-line">Comments: Accepted at EMNLP 2026 main conference</div>
+<div class="links" style="margin-top:8px"><a href="https://arxiv.org/abs/2609.03675v2">Abs</a> · <a href="https://arxiv.org/pdf/2609.03675v2">PDF</a> · <a href="https://huggingface.co/huggingface">Code1</a> · <a href="https://huggingface.co/docs/hub/spaces">Code2</a></div>
+<details class="detail"><summary>Abstract</summary>
+<div class="mono">Streaming video understanding requires Vision Language Models (VLLMs) to process growing video streams and answer user questions under tight latency constraints. Existing methods improve efficiency through token pruning and memory-bank schemes, but mainly reduce visual tokens after visual encoding. Consequently, downstream token pruning alone cannot substantially reduce end-to-end latency because the expensive frame encoding cost has already been incurred. We propose CoFiE, a Coarse-to-Fine Evidence Selection framework that decouples evidence selection into a coarse, query-agnostic filtering stage before the vision encoder and a fine, query-specific refinement stage during LLM prefill. CoFiE introduces Novelty-Guided Frame Filtering to retain visually distinctive candidate frames and Query-Specific Evidence Refinement to select the frames most relevant to the user query. This design removes substantial redundancy before frame encoding while preserving query-specific refinement once semantic information becomes available. Experiments show that CoFiE establishes a new state-of-the-art accuracy-efficiency trade-off across multiple video understanding benchmarks, reaching 78.86% accuracy on StreamingBench and 68.72% on OvO-Bench, with improvements of up to 3.15% over prior methods. Even with up to 80% evidence-frame filtering, CoFiE outperforms strong open-source multimodal models while improving end-to-end inference latency by up to 2.54 times.</div></details>
+<details class="detail"><summary>Summary / 总结</summary>
+<div class="mono">Streaming video understanding requires Vision Language Models (VLLMs) to process growing video streams and answer user questions under tight latency constraints.</div>
+</details>
+</div>
+<div class="card">
+<div class="title">LineupRL: Verifiable Reinforcement Learning for Time Series Captioning via Caption-to-Series Identification</div>
+<div class="meta-line">Authors: Haochen Zhang, Laura Yao, Zachary Plotkin, Gengwei Zhang, Tianlong Chen</div>
+<div class="meta-line">First: 2026-10-01T14:43:21+00:00 · Latest: 2026-10-01T14:43:21+00:00</div>
+<div class="meta-line">Comments: 28 pages, 4 figures</div>
+<div class="links" style="margin-top:8px"><a href="https://arxiv.org/abs/2610.01800v1">Abs</a> · <a href="https://arxiv.org/pdf/2610.01800v1">PDF</a> · <a href="https://huggingface.co/huggingface">Code1</a> · <a href="https://huggingface.co/docs/hub/spaces">Code2</a></div>
+<details class="detail"><summary>Abstract</summary>
+<div class="mono">Time series captioning is a fundamental step in time series understanding and can also serve as the bridge between signal and natural language. Supervised fine-tuning (SFT) relies on a larger model&#x27;s captions and cannot exceed their quality. Reinforcement learning (RL) can, but its rewards were designed for other modalities and other tasks, and they transfer poorly to open-ended generation in the time series domain. We address this by proposing LineupRL, a reinforcement learning with verifiable rewards (RLVR) pipeline whose reward is caption-to-series identification. The reward model is a frozen large language model (LLM) verifier that reads the generated caption and the candidate time series as raw values, never the chart, and must pick the described time series from multiple distractors. Matching is a far lighter demand on the verifier than writing questions or judging a caption, so an off-the-shelf LLM can supply the reward. Across two captioning benchmarks, and on forecasting and reconstruction where the predictor sees only the caption, LineupRL outperforms SFT and RL baselines on every metric. The 3B vision language model (VLM) trained by LineupRL also outperforms, at 1/24 of the parameters, the 72B VLM whose captions the SFT baseline is distilled from. Our case study shows that LineupRL resists reward hacking, and that the captioner it trains both traces the trend and names the values at key points.</div></details>
+<details class="detail"><summary>Summary / 总结</summary>
+<div class="mono">Time series captioning is a fundamental step in time series understanding and can also serve as the bridge between signal and natural language.</div>
+</details>
+</div>
+<div class="card">
+<div class="title">VETO: Video Efficient Token Optimization for Vision Language Models</div>
+<div class="meta-line">Authors: Gueter Josmy Faure, Hao Ping Wang, Min-Hung Chen, Winston H. Hsu</div>
+<div class="meta-line">First: 2026-10-01T14:32:43+00:00 · Latest: 2026-10-01T14:32:43+00:00</div>
+<div class="links" style="margin-top:8px"><a href="https://arxiv.org/abs/2610.01785v1">Abs</a> · <a href="https://arxiv.org/pdf/2610.01785v1">PDF</a> · <a href="https://huggingface.co/huggingface">Code1</a> · <a href="https://huggingface.co/docs/hub/spaces">Code2</a></div>
+<details class="detail"><summary>Abstract</summary>
+<div class="mono">Processing long videos with Vision-Language Models (VLMs) is bottlenecked by the quadratic cost of visual tokens, making long-form inference prohibitively expensive. While single-axis compression methods mitigate this, they hit a hard efficiency floor because they treat spatial and temporal redundancy independently. We present VETO (Video Efficient Token Optimization for Vision-Language Models), a training-optional plug-in that eliminates this bottleneck through dual-axis compression: (i) an intra-frame compressor that merges semantically similar tokens within each frame via optimal-transport inspired matching, and (ii) an inter-frame compressor that identifies and merges temporally redundant frames. The key design insight is hierarchical ordering: by first compressing spatial dimensions, VETO drastically reduces the cost of subsequent global temporal matching, bypassing the efficiency wall of single-axis approaches, with an advantage that grows with modern fully-fused attention infrastructure. Empirically, VETO achieves up to 45% faster inference (e.g., on LLaVA-OneVision-7B) while preserving or improving accuracy. Under extreme token starvation (10% budget), VETO outperforms VFlowOpt (54.9%), VisionZip (52.6%), and FastV (47.9%) with 55.7% accuracy. We demonstrate universal applicability across LLaVA-OneVision, InternVL-2.5, and LongVA, with zero-shot accuracy preserved or improved in all cases.</div></details>
+<details class="detail"><summary>Summary / 总结</summary>
+<div class="mono">Processing long videos with Vision-Language Models (VLMs) is bottlenecked by the quadratic cost of visual tokens, making long-form inference prohibitively expensive.</div>
+</details>
+</div>
+<div class="card">
+<div class="title">TopK-Guided: Adaptive, Budget-Aware Activation Sparsity for Efficient LLM Inference</div>
+<div class="meta-line">Authors: Mukund Agarwalla, Chih-Jen Lin</div>
+<div class="meta-line">First: 2026-10-01T14:24:01+00:00 · Latest: 2026-10-01T14:24:01+00:00</div>
+<div class="links" style="margin-top:8px"><a href="https://arxiv.org/abs/2610.01763v1">Abs</a> · <a href="https://arxiv.org/pdf/2610.01763v1">PDF</a> · <a href="https://huggingface.co/huggingface">Code1</a> · <a href="https://huggingface.co/docs/hub/spaces">Code2</a></div>
+<details class="detail"><summary>Abstract</summary>
+<div class="mono">Activation sparsity speeds up large language model (LLM) inference by setting unimportant activations to zero so that the corresponding computations can be skipped. Existing training-free methods, however, make different trade-offs: threshold-based methods such as TEAL adapt the sparsity level to each token but do not tightly control the realised sparsity, while TopK-based methods such as WINA enforce a fixed sparsity level but use the same sparsity budget for every token. Both also apply the same budget across transformer blocks, despite large differences in block sensitivity. We introduce TopK-Guided, a training-free method that addresses both limitations by combining bounded token-level sparsity adaptation with sensitivity-aware block-level budget allocation. Across Llama-2 and Llama-3 models, TopK-Guided consistently improves perplexity and downstream accuracy over TEAL and WINA while preserving essentially the same sparsitydependent projection compute as WINA, with the largest gains at high sparsity. Ablations show that both components provide complementary improvements.</div></details>
+<details class="detail"><summary>Summary / 总结</summary>
+<div class="mono">Activation sparsity speeds up large language model (LLM) inference by setting unimportant activations to zero so that the corresponding computations can be skipped.</div>
+</details>
+</div>
+<div class="card">
+<div class="title">Fewer Tokens, More Self-Teaching: On-Policy Self-Distillation for Extreme Visual Token Reduction</div>
+<div class="meta-line">Authors: Junxian Li, Ruixuan Yang, Tianao Zhang, Tiange Xu, Weisheng Dong, Yulun Zhang</div>
+<div class="meta-line">First: 2026-09-26T08:16:07+00:00 · Latest: 2026-10-01T14:20:19+00:00</div>
+<div class="meta-line">Comments: Code is at https://github.com/Yrxxxxxxxx1007/LT-OPD</div>
+<div class="links" style="margin-top:8px"><a href="https://arxiv.org/abs/2609.32353v2">Abs</a> · <a href="https://arxiv.org/pdf/2609.32353v2">PDF</a> · <a href="https://github.com/Yrxxxxxxxx1007/LT-OPD">Code1</a> · <a href="https://huggingface.co/huggingface">Code2</a> · <a href="https://huggingface.co/docs/hub/spaces">Code3</a></div>
+<details class="detail"><summary>Abstract</summary>
+<div class="mono">Visual token reduction is an effective way to accelerate multimodal large language models (MLLMs), but performance deteriorates rapidly under extremely low token budgets. Existing work has explored both visual-token selection and training-based adaptation to reduced visual inputs. We take a step further by asking how a heavily compressed MLLM should learn from the states induced by its own generations. This setting naturally calls for on-policy self-distillation: a heavily compressed model is supervised on the states induced by its own generations, while its full-token counterpart serves as an information-rich teacher. Based on this insight, we propose LT-OPD, a training framework for extreme visual-token reduction. The student rolls out responses with only a small fraction of visual tokens, and a frozen full-token copy of the same MLLM provides distributional supervision along these student-generated trajectories. To stabilize on-policy learning when visual evidence is severely limited, we further introduce a budget-level curriculum that progressively decreases the token budget during training. Across nine benchmarks on Qwen3.5-4B, LT-OPD raises average retained performance under 5% visual-token retention from 68.6% to 82.3%, outperforming training-free, training-based, and reinforcement-learning baselines at the same budget. The gains transfer consistently to Qwen3.5-9B, GLM-4.6V-9B, and LLaVA-OV-1.5-4B. LT-OPD also reduces KV-cache usage by 85.2% and prefill FLOPs by 85.4% without additional inference overhead, demonstrating that on-policy learning can substantially recover capabilities lost to extreme visual-token reduction.</div></details>
+<details class="detail"><summary>Summary / 总结</summary>
+<div class="mono">Visual token reduction is an effective way to accelerate multimodal large language models (MLLMs), but performance deteriorates rapidly under extremely low token budgets.</div>
+</details>
+</div>
+<div class="card">
+<div class="title">Cog-VADU: A Training-Free Cognitive Reasoning Framework for Video Anomaly Detection and Understanding</div>
+<div class="meta-line">Authors: Mohd Ubaid Wani, Sara Atito, Josef Kittler, Muhammad Awais</div>
+<div class="meta-line">Venue: Transactions on Machine Learning Research, August 2026</div>
+<div class="meta-line">First: 2026-10-01T14:18:32+00:00 · Latest: 2026-10-01T14:18:32+00:00</div>
+<div class="meta-line">Comments: Published in Transactions on Machine Learning Research (TMLR), 2026. 39 pages</div>
+<div class="links" style="margin-top:8px"><a href="https://arxiv.org/abs/2610.01754v1">Abs</a> · <a href="https://arxiv.org/pdf/2610.01754v1">PDF</a> · <a href="https://huggingface.co/huggingface">Code1</a> · <a href="https://huggingface.co/docs/hub/spaces">Code2</a></div>
+<details class="detail"><summary>Abstract</summary>
+<div class="mono">Video Anomaly Detection (VAD) aims to temporally localize abnormal events in videos. Most existing approaches rely on dataset-specific training and curated annotations, limiting generalization in open-set scenarios. Recent zero-shot methods based on Large Vision- Language Models (LVLMs) alleviate this dependency but often lack temporal continuity and structured reasoning. We propose Cog-VADU, a fully training-free framework that reformulates VAD as a sequential cognitive reasoning task. Cog-VADU introduces Chain-of- Anomaly Detection Thought Prompting (CoADTP), which unrolls an LVLM into a recurrent reasoning chain across video segments. By propagating structured rationales over time, the model maintains implicit temporal memory, enabling robust discrimination between com- plex anomalies and high-motion normal activities. To improve reliability, we further design a cross-modal re-ranking stage that aligns textual rationales with visual embeddings, enforcing semantic consistency and temporal coherence for refined and stable predictions. Extensive experiments on multiple public VAD benchmarks demonstrate that Cog-VADU achieves competitive zero-shot performance. Moreover, cross-model evaluations show that CoADTP consistently enhances reasoning-based anomaly detection in a model-agnostic manner, pro- viding interpretable and generalizable anomaly understanding for real-world applications.</div></details>
+<details class="detail"><summary>Summary / 总结</summary>
+<div class="mono">Video Anomaly Detection (VAD) aims to temporally localize abnormal events in videos.</div>
+</details>
+</div>
+<div class="card">
+<div class="title">RelICL: Training-free Relational Learning with Tabular Foundation Models</div>
+<div class="meta-line">Authors: Simon Forbat, Rainer Gemulla</div>
+<div class="meta-line">First: 2026-10-01T14:00:23+00:00 · Latest: 2026-10-01T14:00:23+00:00</div>
+<div class="links" style="margin-top:8px"><a href="https://arxiv.org/abs/2610.01725v1">Abs</a> · <a href="https://arxiv.org/pdf/2610.01725v1">PDF</a> · <a href="https://huggingface.co/huggingface">Code1</a> · <a href="https://huggingface.co/docs/hub/spaces">Code2</a></div>
+<details class="detail"><summary>Abstract</summary>
+<div class="mono">Tabular foundation models achieve state-of-the-art performance on single-table tasks without any training. Recent work suggests that they are also well-suited for relational learning via deep feature synthesis (DFS), which flattens a relational schema into a single table by adding aggregates of the other tables&#x27; columns as features. This approach is appealing because it directly benefits from improvements to or customization of the underlying tabular foundation model. In this paper, we identify two key problems with DFS: feature explosion and interaction blindness. The first problem arises because the number of DFS features grows quickly as the schema becomes more complex, limiting scalability and performance. The second problem arises because column-wise aggregates do not account for feature interactions, limiting performance. We propose and explore an alternative method termed RelICL, which keeps the benefits of DFS but alleviates these two problems. At its heart, RelICL propagates and fuses information step by step through the schema graph, using the same tabular foundation model that is eventually used for prediction to do so. In our experimental study using RelBench tasks, RelICL was on par with the strongest approach based on deep feature synthesis.</div></details>
+<details class="detail"><summary>Summary / 总结</summary>
+<div class="mono">Tabular foundation models achieve state-of-the-art performance on single-table tasks without any training.</div>
+</details>
+</div>
+<div class="card">
+<div class="title">Rethinking Memorization Mitigation in Diffusion Models: Reinforcing Text Conditioning</div>
+<div class="meta-line">Authors: Hyungjun Joo, Sehwan Kim, Hyeonggeun Han, Sangwoo Hong, Jungwoo Lee</div>
+<div class="meta-line">First: 2026-10-01T13:58:56+00:00 · Latest: 2026-10-01T13:58:56+00:00</div>
+<div class="links" style="margin-top:8px"><a href="https://arxiv.org/abs/2610.01723v1">Abs</a> · <a href="https://arxiv.org/pdf/2610.01723v1">PDF</a> · <a href="https://huggingface.co/huggingface">Code1</a> · <a href="https://huggingface.co/docs/hub/spaces">Code2</a></div>
+<details class="detail"><summary>Abstract</summary>
+<div class="mono">Text-to-image diffusion models have achieved remarkable progress in image synthesis, yet can exhibit memorization by closely reproducing individual training examples. Effective mitigation must preserve useful prompt information to guide alternative depictions. We introduce a training-free method that redistributes cross-attention with Gaussian smoothing before reinforcing content-token contributions and attenuating padding contributions, without additional denoiser evaluations. With this intervention, stronger content conditioning can improve prompt alignment at comparable training-image similarity. A local analysis identifies when reinforcement preserves shared value information while redistribution reduces localized attention mass. On Stable Diffusion v1.4 and v2.0, all evaluated smoothing widths lie on the empirical Pareto frontiers for training-image similarity versus both prompt alignment and image preference. A configuration selected on Stable Diffusion reduces template reproduction in DeepFloyd IF without further tuning. These findings support jointly controlling conditioning allocation and strength to generate prompt-consistent alternatives.</div></details>
+<details class="detail"><summary>Summary / 总结</summary>
+<div class="mono">Text-to-image diffusion models have achieved remarkable progress in image synthesis, yet can exhibit memorization by closely reproducing individual training examples.</div>
+</details>
+</div>
+<div class="card">
+<div class="title">Architectural Sampling: Test-Time Scaling via Computational Diversity in Frozen Vision-Language Models</div>
+<div class="meta-line">Authors: Akshit Singh, Shyam Marjit, Wei Lin, Leonid Karlinsky, M. Jehanzeb Mirza</div>
+<div class="meta-line">First: 2026-10-01T13:44:11+00:00 · Latest: 2026-10-01T13:44:11+00:00</div>
+<div class="links" style="margin-top:8px"><a href="https://arxiv.org/abs/2610.01687v1">Abs</a> · <a href="https://arxiv.org/pdf/2610.01687v1">PDF</a> · <a href="https://huggingface.co/huggingface">Code1</a> · <a href="https://huggingface.co/docs/hub/spaces">Code2</a></div>
+<details class="detail"><summary>Abstract</summary>
+<div class="mono">Test-time scaling often seeks better answers by sampling multiple responses from a frozen model, yet conventional temperature sampling generates every candidate along the same fixed computation path. We introduce architectural sampling, a training-free method that generates candidates through distinct forward computations by reusing selected blocks of decoder layers. Varying the block location and repetition count introduces computational diversity without updating model weights or adding auxiliary parameters. Across five Qwen checkpoints and twelve multimodal benchmarks, architectural sampling improves pass@9 over standard-path temperature sampling by 6.58 percentage points on average at the same nine-candidate budget. Reusing early layers yields the strongest gains, and the improvement in candidate coverage persists even under greedy decoding. The resulting candidates show lower lexical overlap and improve accuracy when used as rollouts for label-free test-time reinforcement learning. These findings extend the benefits of our architectural sampling beyond candidate coverage, demonstrating more effective learning from a model&#x27;s own outputs.</div></details>
+<details class="detail"><summary>Summary / 总结</summary>
+<div class="mono">Test-time scaling often seeks better answers by sampling multiple responses from a frozen model, yet conventional temperature sampling generates every candidate along the same fixed computation path.</div>
+</details>
+</div>
+<div class="card">
+<div class="title">Not All Error Yields to Scale: Where Scaling Stops in Vision-Language Inference</div>
+<div class="meta-line">Authors: Xinye Zhao, Yunkai Dang, Yunchen Wu, Wenbin Li</div>
+<div class="meta-line">First: 2026-10-01T13:05:39+00:00 · Latest: 2026-10-01T13:05:39+00:00</div>
+<div class="links" style="margin-top:8px"><a href="https://arxiv.org/abs/2610.01640v1">Abs</a> · <a href="https://arxiv.org/pdf/2610.01640v1">PDF</a> · <a href="https://huggingface.co/huggingface">Code1</a> · <a href="https://huggingface.co/docs/hub/spaces">Code2</a></div>
+<details class="detail"><summary>Abstract</summary>
+<div class="mono">Vision-language models (VLMs) face a fixed-budget trade-off between processing more visual information for fine-grained perception and using a larger language backbone for complex reasoning. Existing studies do not tell us which combination of backbone size and input resolution to deploy, especially in high-resolution deployments. To address this gap, we propose the Separable Law that describes how VLM performance changes with language backbone size and visual token count. We fit the law to measurements from 26 InternVL and QwenVL models, with language backbone sizes from 1B to 72B, on four high-resolution benchmarks with image sizes from 224 pixels to 8K. We find that the questions responding to scaling can be predicted from the skill they require, while a substantial fraction never responds at all. We also find that the two model families gain similarly from a larger backbone, while their gains from more visual tokens differ sharply. Combined with a cost law, the Separable Law gives a closed-form rule for allocating compute between backbone size and visual tokens. When deployment is limited to available configurations, the law identifies model and image sizes that perform close to the best feasible choice under the same budget. We hope our work offers a principled way to decide how much a model should be allowed to see at high resolution, given what it must reason about.</div></details>
+<details class="detail"><summary>Summary / 总结</summary>
+<div class="mono">Vision-language models (VLMs) face a fixed-budget trade-off between processing more visual information for fine-grained perception and using a larger language backbone for complex reasoning.</div>
+</details>
+</div>
+<div class="card">
+<div class="title">Beyond Domain-Level Adaptation: Margin-Oriented Semantic-Appearance Interaction Correction for Personalized Federated Vision-Language Models</div>
+<div class="meta-line">Authors: Wentao Yue, Qingyu Mao, Tianyou Lai, Ahmed M. Abdelmoniem, Qilei Li</div>
+<div class="meta-line">First: 2026-10-01T12:57:30+00:00 · Latest: 2026-10-01T12:57:30+00:00</div>
+<div class="links" style="margin-top:8px"><a href="https://arxiv.org/abs/2610.01625v1">Abs</a> · <a href="https://arxiv.org/pdf/2610.01625v1">PDF</a> · <a href="https://huggingface.co/huggingface">Code1</a> · <a href="https://huggingface.co/docs/hub/spaces">Code2</a></div>
+<details class="detail"><summary>Abstract</summary>
+<div class="mono">Federated parameter-efficient fine-tuning enables distributed clients to adapt pretrained vision-language models without sharing raw data or updating the full backbone. Its effectiveness, however, is limited by domain heterogeneity across clients. Existing personalized methods separate globally shared knowledge from client-specific style, but they largely treat each domain as a class-agnostic transformation. We show that this abstraction is insufficient: the cross-domain displacement associated with a fixed domain varies across semantic classes, and only a subset of these class-domain residuals damages the image-text decision margin. We therefore propose Margin-Oriented Semantic-Appearance Interaction Correction (MOSAIC), which first constructs a decision-aware harmfulness score that measures whether a training-derived class-domain residual favors a competing text prototype over the true class. It then models fine-grained class-domain interactions with a low-rank residual adapter whose class factors and residual basis are globally shared while domain factors remain client-private. An image-conditioned gate further controls candidate-wise correction, and harmful-pair-aware reweighting prioritizes decision-relevant residuals during local optimization. Extensive experiments on Office31, OfficeHome, and DomainNet100 demonstrate that MOSAIC consistently improves macro-client top-1 accuracy across all evaluated domain-shift and joint domain-label-shift settings.</div></details>
+<details class="detail"><summary>Summary / 总结</summary>
+<div class="mono">Federated parameter-efficient fine-tuning enables distributed clients to adapt pretrained vision-language models without sharing raw data or updating the full backbone.</div>
+</details>
+</div></div>
+    <details style="margin-top:16px" class="detail"><summary>History</summary>
+      <div class="history-list"><a href="archive/20261004_0559.html">20261004_0559</a>
+<a href="archive/20261003_0655.html">20261003_0655</a>
+<a href="archive/20261002_0700.html">20261002_0700</a>
+<a href="archive/20261001_0649.html">20261001_0649</a>
+<a href="archive/20260930_0650.html">20260930_0650</a>
+<a href="archive/20260929_0743.html">20260929_0743</a>
+<a href="archive/20260928_0550.html">20260928_0550</a>
+<a href="archive/20260927_0550.html">20260927_0550</a>
+<a href="archive/20260926_0559.html">20260926_0559</a>
+<a href="archive/20260925_0559.html">20260925_0559</a>
+<a href="archive/20260924_0604.html">20260924_0604</a>
+<a href="archive/20260922_0627.html">20260922_0627</a>
+<a href="archive/20260921_0510.html">20260921_0510</a>
+<a href="archive/20260920_0518.html">20260920_0518</a>
+<a href="archive/20260919_0525.html">20260919_0525</a>
+<a href="archive/20260918_0555.html">20260918_0555</a>
+<a href="archive/20260917_0555.html">20260917_0555</a>
+<a href="archive/20260916_0555.html">20260916_0555</a>
+<a href="archive/20260913_0513.html">20260913_0513</a>
+<a href="archive/20260912_0533.html">20260912_0533</a>
+<a href="archive/20260911_0525.html">20260911_0525</a>
+<a href="archive/20260910_0530.html">20260910_0530</a>
+<a href="archive/20260909_0535.html">20260909_0535</a>
+<a href="archive/20260908_0555.html">20260908_0555</a>
+<a href="archive/20260907_0502.html">20260907_0502</a>
+<a href="archive/20260906_0456.html">20260906_0456</a>
+<a href="archive/20260904_0534.html">20260904_0534</a>
+<a href="archive/20260903_0536.html">20260903_0536</a>
+<a href="archive/20260902_0536.html">20260902_0536</a>
+<a href="archive/20260901_0707.html">20260901_0707</a>
+<a href="archive/20260831_0550.html">20260831_0550</a>
+<a href="archive/20260830_0530.html">20260830_0530</a>
+<a href="archive/20260829_0959.html">20260829_0959</a>
+<a href="archive/20260828_1025.html">20260828_1025</a>
+<a href="archive/20260827_0540.html">20260827_0540</a>
+<a href="archive/20260826_0330.html">20260826_0330</a>
+<a href="archive/20260825_0328.html">20260825_0328</a>
+<a href="archive/20260824_0321.html">20260824_0321</a>
+<a href="archive/20260823_0321.html">20260823_0321</a>
+<a href="archive/20260822_0325.html">20260822_0325</a>
+<a href="archive/20260821_0329.html">20260821_0329</a>
+<a href="archive/20260820_0323.html">20260820_0323</a>
+<a href="archive/20260819_0335.html">20260819_0335</a>
+<a href="archive/20260818_0326.html">20260818_0326</a>
+<a href="archive/20260817_0320.html">20260817_0320</a>
+<a href="archive/20260816_0320.html">20260816_0320</a>
+<a href="archive/20260815_0347.html">20260815_0347</a>
+<a href="archive/20260814_0355.html">20260814_0355</a>
+<a href="archive/20260813_0400.html">20260813_0400</a>
+<a href="archive/20260812_0400.html">20260812_0400</a>
+<a href="archive/20260811_0354.html">20260811_0354</a>
+<a href="archive/20260810_0332.html">20260810_0332</a>
+<a href="archive/20260809_0328.html">20260809_0328</a>
+<a href="archive/20260808_0352.html">20260808_0352</a>
+<a href="archive/20260807_0840.html">20260807_0840</a>
+<a href="archive/20260806_0426.html">20260806_0426</a>
+<a href="archive/20260805_0423.html">20260805_0423</a>
+<a href="archive/20260804_0426.html">20260804_0426</a>
+<a href="archive/20260803_0409.html">20260803_0409</a>
+<a href="archive/20260802_0409.html">20260802_0409</a>
+<a href="archive/20260801_0419.html">20260801_0419</a>
+<a href="archive/20260731_0414.html">20260731_0414</a>
+<a href="archive/20260730_0412.html">20260730_0412</a>
+<a href="archive/20260729_0415.html">20260729_0415</a>
+<a href="archive/20260728_0421.html">20260728_0421</a>
+<a href="archive/20260727_0410.html">20260727_0410</a>
+<a href="archive/20260726_0410.html">20260726_0410</a>
+<a href="archive/20260725_0419.html">20260725_0419</a>
+<a href="archive/20260724_0411.html">20260724_0411</a>
+<a href="archive/20260723_0411.html">20260723_0411</a>
+<a href="archive/20260722_0418.html">20260722_0418</a>
+<a href="archive/20260721_0419.html">20260721_0419</a>
+<a href="archive/20260720_0406.html">20260720_0406</a>
+<a href="archive/20260719_0403.html">20260719_0403</a>
+<a href="archive/20260718_0405.html">20260718_0405</a>
+<a href="archive/20260717_0402.html">20260717_0402</a>
+<a href="archive/20260716_0407.html">20260716_0407</a>
+<a href="archive/20260715_0410.html">20260715_0410</a>
+<a href="archive/20260714_0413.html">20260714_0413</a>
+<a href="archive/20260713_0406.html">20260713_0406</a>
+<a href="archive/20260712_0405.html">20260712_0405</a>
+<a href="archive/20260711_0422.html">20260711_0422</a>
+<a href="archive/20260710_0446.html">20260710_0446</a>
+<a href="archive/20260709_0420.html">20260709_0420</a>
+<a href="archive/20260708_0449.html">20260708_0449</a>
+<a href="archive/20260707_0452.html">20260707_0452</a>
+<a href="archive/20260706_0413.html">20260706_0413</a>
+<a href="archive/20260705_0408.html">20260705_0408</a>
+<a href="archive/20260704_0413.html">20260704_0413</a>
+<a href="archive/20260703_0417.html">20260703_0417</a>
+<a href="archive/20260702_0447.html">20260702_0447</a>
+<a href="archive/20260701_0456.html">20260701_0456</a>
+<a href="archive/20260630_0449.html">20260630_0449</a>
+<a href="archive/20260629_0413.html">20260629_0413</a>
+<a href="archive/20260627_0446.html">20260627_0446</a>
+<a href="archive/20260626_0456.html">20260626_0456</a>
+<a href="archive/20260625_0448.html">20260625_0448</a>
+<a href="archive/20260624_0500.html">20260624_0500</a>
+<a href="archive/20260623_0531.html">20260623_0531</a>
+<a href="archive/20260622_0424.html">20260622_0424</a>
+<a href="archive/20260621_0414.html">20260621_0414</a>
+<a href="archive/20260620_0426.html">20260620_0426</a>
+<a href="archive/20260619_0525.html">20260619_0525</a>
+<a href="archive/20260618_0505.html">20260618_0505</a>
+<a href="archive/20260617_0541.html">20260617_0541</a>
+<a href="archive/20260616_0542.html">20260616_0542</a>
+<a href="archive/20260615_0417.html">20260615_0417</a>
+<a href="archive/20260614_0415.html">20260614_0415</a>
+<a href="archive/20260613_0502.html">20260613_0502</a>
+<a href="archive/20260612_0519.html">20260612_0519</a>
+<a href="archive/20260611_0525.html">20260611_0525</a>
+<a href="archive/20260610_0457.html">20260610_0457</a>
+<a href="archive/20260609_0511.html">20260609_0511</a>
+<a href="archive/20260608_0411.html">20260608_0411</a>
+<a href="archive/20260607_0408.html">20260607_0408</a>
+<a href="archive/20260606_0448.html">20260606_0448</a>
+<a href="archive/20260604_0549.html">20260604_0549</a>
+<a href="archive/20260603_0548.html">20260603_0548</a>
+<a href="archive/20260602_0610.html">20260602_0610</a>
+<a href="archive/20260601_0406.html">20260601_0406</a>
+<a href="archive/20260531_0409.html">20260531_0409</a>
+<a href="archive/20260530_0507.html">20260530_0507</a>
+<a href="archive/20260529_0514.html">20260529_0514</a>
+<a href="archive/20260528_0502.html">20260528_0502</a>
+<a href="archive/20260527_2350.html">20260527_2350</a>
+<a href="archive/20260527_0459.html">20260527_0459</a>
+<a href="archive/20260526_0426.html">20260526_0426</a>
+<a href="archive/20260525_0417.html">20260525_0417</a>
+<a href="archive/20260524_0411.html">20260524_0411</a>
+<a href="archive/20260523_0445.html">20260523_0445</a>
+<a href="archive/20260522_0454.html">20260522_0454</a>
+<a href="archive/20260521_0508.html">20260521_0508</a>
+<a href="archive/20260520_0449.html">20260520_0449</a>
+<a href="archive/20260519_0442.html">20260519_0442</a>
+<a href="archive/20260518_0409.html">20260518_0409</a>
+<a href="archive/20260517_0425.html">20260517_0425</a>
+<a href="archive/20260516_0436.html">20260516_0436</a>
+<a href="archive/20260515_0457.html">20260515_0457</a>
+<a href="archive/20260514_0507.html">20260514_0507</a>
+<a href="archive/20260513_0503.html">20260513_0503</a>
+<a href="archive/20260512_0505.html">20260512_0505</a>
+<a href="archive/20260511_0418.html">20260511_0418</a>
+<a href="archive/20260510_0414.html">20260510_0414</a>
+<a href="archive/20260509_0426.html">20260509_0426</a>
+<a href="archive/20260508_0435.html">20260508_0435</a>
+<a href="archive/20260507_0454.html">20260507_0454</a>
+<a href="archive/20260506_0427.html">20260506_0427</a>
+<a href="archive/20260505_0436.html">20260505_0436</a>
+<a href="archive/20260504_0410.html">20260504_0410</a>
+<a href="archive/20260503_0414.html">20260503_0414</a>
+<a href="archive/20260502_0426.html">20260502_0426</a>
+<a href="archive/20260501_0429.html">20260501_0429</a>
+<a href="archive/20260430_0430.html">20260430_0430</a>
+<a href="archive/20260429_0437.html">20260429_0437</a>
+<a href="archive/20260428_0429.html">20260428_0429</a>
+<a href="archive/20260427_0405.html">20260427_0405</a>
+<a href="archive/20260426_0404.html">20260426_0404</a>
+<a href="archive/20260425_0410.html">20260425_0410</a>
+<a href="archive/20260424_0430.html">20260424_0430</a>
+<a href="archive/20260423_0426.html">20260423_0426</a>
+<a href="archive/20260422_0424.html">20260422_0424</a>
+<a href="archive/20260421_0418.html">20260421_0418</a>
+<a href="archive/20260420_0359.html">20260420_0359</a>
+<a href="archive/20260419_0358.html">20260419_0358</a>
+<a href="archive/20260418_0415.html">20260418_0415</a>
+<a href="archive/20260417_0421.html">20260417_0421</a>
+<a href="archive/20260416_0425.html">20260416_0425</a>
+<a href="archive/20260415_0426.html">20260415_0426</a>
+<a href="archive/20260414_0423.html">20260414_0423</a>
+<a href="archive/20260413_0352.html">20260413_0352</a>
+<a href="archive/20260412_0347.html">20260412_0347</a>
+<a href="archive/20260411_0356.html">20260411_0356</a>
+<a href="archive/20260410_0412.html">20260410_0412</a>
+<a href="archive/20260409_0411.html">20260409_0411</a>
+<a href="archive/20260407_0404.html">20260407_0404</a>
+<a href="archive/20260406_0347.html">20260406_0347</a>
+<a href="archive/20260405_0344.html">20260405_0344</a>
+<a href="archive/20260404_0350.html">20260404_0350</a>
+<a href="archive/20260403_0400.html">20260403_0400</a>
+<a href="archive/20260401_0408.html">20260401_0408</a>
+<a href="archive/20260331_0407.html">20260331_0407</a>
+<a href="archive/20260329_0347.html">20260329_0347</a>
+<a href="archive/20260328_0350.html">20260328_0350</a>
+<a href="archive/20260326_0357.html">20260326_0357</a>
+<a href="archive/20260325_0405.html">20260325_0405</a>
+<a href="archive/20260324_0400.html">20260324_0400</a>
+<a href="archive/20260323_0342.html">20260323_0342</a>
+<a href="archive/20260322_0340.html">20260322_0340</a>
+<a href="archive/20260321_0347.html">20260321_0347</a>
+<a href="archive/20260320_0356.html">20260320_0356</a>
+<a href="archive/20260319_0358.html">20260319_0358</a>
+<a href="archive/20260318_0405.html">20260318_0405</a>
+<a href="archive/20260317_0401.html">20260317_0401</a>
+<a href="archive/20260316_0343.html">20260316_0343</a>
+<a href="archive/20260315_0341.html">20260315_0341</a>
+<a href="archive/20260314_0344.html">20260314_0344</a>
+<a href="archive/20260313_0352.html">20260313_0352</a>
+<a href="archive/20260312_0352.html">20260312_0352</a>
+<a href="archive/20260311_0347.html">20260311_0347</a>
+<a href="archive/20260310_0350.html">20260310_0350</a>
+<a href="archive/20260309_0338.html">20260309_0338</a>
+<a href="archive/20260308_0337.html">20260308_0337</a>
+<a href="archive/20260307_0347.html">20260307_0347</a>
+<a href="archive/20260306_0402.html">20260306_0402</a>
+<a href="archive/20260305_0348.html">20260305_0348</a>
+<a href="archive/20260304_0348.html">20260304_0348</a>
+<a href="archive/20260303_0348.html">20260303_0348</a>
+<a href="archive/20260302_0336.html">20260302_0336</a>
+<a href="archive/20260301_0339.html">20260301_0339</a>
+<a href="archive/20260228_0348.html">20260228_0348</a>
+<a href="archive/20260227_0354.html">20260227_0354</a>
+<a href="archive/20260226_0402.html">20260226_0402</a>
+<a href="archive/20260225_0404.html">20260225_0404</a>
+<a href="archive/20260224_0406.html">20260224_0406</a>
+<a href="archive/20260223_0338.html">20260223_0338</a>
+<a href="archive/20260222_0339.html">20260222_0339</a>
+<a href="archive/20260221_0345.html">20260221_0345</a>
+<a href="archive/20260220_0348.html">20260220_0348</a>
+<a href="archive/20260219_0358.html">20260219_0358</a>
+<a href="archive/20260218_0358.html">20260218_0358</a>
+<a href="archive/20260217_0343.html">20260217_0343</a>
+<a href="archive/20260216_0339.html">20260216_0339</a>
+<a href="archive/20260215_0338.html">20260215_0338</a>
+<a href="archive/20260213_0401.html">20260213_0401</a>
+<a href="archive/20260212_0404.html">20260212_0404</a>
+<a href="archive/20260210_0409.html">20260210_0409</a>
+<a href="archive/20260208_0339.html">20260208_0339</a>
+<a href="archive/20260207_0349.html">20260207_0349</a>
+<a href="archive/20260206_0347.html">20260206_0347</a>
+<a href="archive/20260205_0346.html">20260205_0346</a>
+<a href="archive/20260204_0354.html">20260204_0354</a>
+<a href="archive/20260202_0337.html">20260202_0337</a>
+<a href="archive/20260201_0333.html">20260201_0333</a>
+<a href="archive/20260131_0345.html">20260131_0345</a>
+<a href="archive/20260130_0341.html">20260130_0341</a>
+<a href="archive/20260129_0344.html">20260129_0344</a>
+<a href="archive/20260128_0341.html">20260128_0341</a>
+<a href="archive/20260127_0338.html">20260127_0338</a>
+<a href="archive/20260126_0330.html">20260126_0330</a>
+<a href="archive/20260125_0329.html">20260125_0329</a>
+<a href="archive/20260124_0337.html">20260124_0337</a>
+<a href="archive/20260123_0337.html">20260123_0337</a>
+<a href="archive/20260122_0343.html">20260122_0343</a>
+<a href="archive/20260121_0424.html">20260121_0424</a>
+<a href="archive/20260119_0329.html">20260119_0329</a>
+<a href="archive/20260118_0327.html">20260118_0327</a>
+<a href="archive/20260117_0332.html">20260117_0332</a>
+<a href="archive/20260116_0339.html">20260116_0339</a>
+<a href="archive/20260115_0334.html">20260115_0334</a>
+<a href="archive/20260114_0333.html">20260114_0333</a>
+<a href="archive/20260113_0334.html">20260113_0334</a>
+<a href="archive/20260112_0331.html">20260112_0331</a>
+<a href="archive/20260111_0329.html">20260111_0329</a>
+<a href="archive/20260110_0333.html">20260110_0333</a>
+<a href="archive/20260109_0334.html">20260109_0334</a>
+<a href="archive/20260108_0335.html">20260108_0335</a>
+<a href="archive/20260107_0330.html">20260107_0330</a>
+<a href="archive/20260106_0336.html">20260106_0336</a>
+<a href="archive/20260105_0328.html">20260105_0328</a>
+<a href="archive/20260104_0328.html">20260104_0328</a>
+<a href="archive/20260103_0325.html">20260103_0325</a>
+<a href="archive/20260102_0339.html">20260102_0339</a>
+<a href="archive/20260101_0329.html">20260101_0329</a>
+<a href="archive/20251231_0333.html">20251231_0333</a>
+<a href="archive/20251230_0332.html">20251230_0332</a>
+<a href="archive/20251229_0329.html">20251229_0329</a>
+<a href="archive/20251228_0332.html">20251228_0332</a>
+<a href="archive/20251227_0329.html">20251227_0329</a>
+<a href="archive/20251226_0330.html">20251226_0330</a>
+<a href="archive/20251225_0329.html">20251225_0329</a>
+<a href="archive/20251224_0331.html">20251224_0331</a>
+<a href="archive/20251223_0332.html">20251223_0332</a>
+<a href="archive/20251222_0328.html">20251222_0328</a>
+<a href="archive/20251221_0329.html">20251221_0329</a>
+<a href="archive/20251220_0330.html">20251220_0330</a>
+<a href="archive/20251219_0330.html">20251219_0330</a>
+<a href="archive/20251218_0345.html">20251218_0345</a>
+<a href="archive/20251217_0332.html">20251217_0332</a>
+<a href="archive/20251216_0333.html">20251216_0333</a>
+<a href="archive/20251215_0333.html">20251215_0333</a>
+<a href="archive/20251214_0327.html">20251214_0327</a>
+<a href="archive/20251212_0333.html">20251212_0333</a>
+<a href="archive/20251211_0331.html">20251211_0331</a>
+<a href="archive/20251210_0332.html">20251210_0332</a>
+<a href="archive/20251209_0331.html">20251209_0331</a>
+<a href="archive/20251208_0328.html">20251208_0328</a>
+<a href="archive/20251207_0327.html">20251207_0327</a>
+<a href="archive/20251206_0330.html">20251206_0330</a>
+<a href="archive/20251205_0331.html">20251205_0331</a>
+<a href="archive/20251204_0331.html">20251204_0331</a>
+<a href="archive/20251203_0333.html">20251203_0333</a>
+<a href="archive/20251202_0335.html">20251202_0335</a>
+<a href="archive/20251201_0328.html">20251201_0328</a>
+<a href="archive/20251130_0327.html">20251130_0327</a>
+<a href="archive/20251129_0328.html">20251129_0328</a>
+<a href="archive/20251128_0327.html">20251128_0327</a>
+<a href="archive/20251127_0327.html">20251127_0327</a>
+<a href="archive/20251126_0329.html">20251126_0329</a>
+<a href="archive/20251125_0327.html">20251125_0327</a>
+<a href="archive/20251124_0327.html">20251124_0327</a>
+<a href="archive/20251123_0326.html">20251123_0326</a>
+<a href="archive/20251122_0328.html">20251122_0328</a>
+<a href="archive/20251121_0328.html">20251121_0328</a>
+<a href="archive/20251120_0329.html">20251120_0329</a>
+<a href="archive/20251119_0328.html">20251119_0328</a>
+<a href="archive/20251118_0328.html">20251118_0328</a>
+<a href="archive/20251117_0326.html">20251117_0326</a>
+<a href="archive/20251116_0325.html">20251116_0325</a>
+<a href="archive/20251115_0327.html">20251115_0327</a>
+<a href="archive/20251114_0328.html">20251114_0328</a>
+<a href="archive/20251113_0330.html">20251113_0330</a>
+<a href="archive/20251112_0329.html">20251112_0329</a>
+<a href="archive/20251111_0328.html">20251111_0328</a>
+<a href="archive/20251110_0325.html">20251110_0325</a>
+<a href="archive/20251109_0326.html">20251109_0326</a>
+<a href="archive/20251108_0328.html">20251108_0328</a>
+<a href="archive/20251107_0328.html">20251107_0328</a>
+<a href="archive/20251106_0329.html">20251106_0329</a>
+<a href="archive/20251105_0326.html">20251105_0326</a>
+<a href="archive/20251104_0327.html">20251104_0327</a>
+<a href="archive/20251103_0324.html">20251103_0324</a>
+<a href="archive/20251102_0326.html">20251102_0326</a>
+<a href="archive/20251101_0324.html">20251101_0324</a>
+<a href="archive/20251031_0328.html">20251031_0328</a>
+<a href="archive/20251030_0330.html">20251030_0330</a>
+<a href="archive/20251029_0329.html">20251029_0329</a>
+<a href="archive/20251028_0329.html">20251028_0329</a>
+<a href="archive/20251027_0322.html">20251027_0322</a>
+<a href="archive/20251026_0327.html">20251026_0327</a>
+<a href="archive/20251025_0331.html">20251025_0331</a>
+<a href="archive/20251024_0329.html">20251024_0329</a>
+<a href="archive/20251023_0329.html">20251023_0329</a>
+<a href="archive/20251022_0330.html">20251022_0330</a>
+<a href="archive/20251021_0331.html">20251021_0331</a>
+<a href="archive/20251020_0328.html">20251020_0328</a>
+<a href="archive/20251019_0321.html">20251019_0321</a>
+<a href="archive/20251018_0327.html">20251018_0327</a>
+<a href="archive/20251017_0320.html">20251017_0320</a>
+<a href="archive/20251016_0328.html">20251016_0328</a>
+<a href="archive/20251015_0328.html">20251015_0328</a>
+<a href="archive/20251014_0323.html">20251014_0323</a>
+<a href="archive/20251011_0328.html">20251011_0328</a>
+<a href="archive/20251010_0330.html">20251010_0330</a>
+<a href="archive/20251009_0321.html">20251009_0321</a>
+<a href="archive/20251008_0343.html">20251008_0343</a>
+<a href="archive/20251007_0353.html">20251007_0353</a>
+<a href="archive/20251006_0325.html">20251006_0325</a>
+<a href="archive/20251005_0350.html">20251005_0350</a>
+<a href="archive/20251004_0352.html">20251004_0352</a>
+<a href="archive/20251003_0352.html">20251003_0352</a>
+<a href="archive/20251002_0356.html">20251002_0356</a>
+<a href="archive/20251001_0321.html">20251001_0321</a>
+<a href="archive/20250925_0335.html">20250925_0335</a>
+<a href="archive/20250924_0350.html">20250924_0350</a>
+<a href="archive/20250923_0348.html">20250923_0348</a>
+<a href="archive/20250922_0346.html">20250922_0346</a>
+<a href="archive/20250921_0345.html">20250921_0345</a>
+<a href="archive/20250920_0342.html">20250920_0342</a>
+<a href="archive/20250919_0346.html">20250919_0346</a>
+<a href="archive/20250918_0342.html">20250918_0342</a>
+<a href="archive/20250917_0336.html">20250917_0336</a>
+<a href="archive/20250916_0333.html">20250916_0333</a>
+<a href="archive/20250915_0333.html">20250915_0333</a>
+<a href="archive/20250914_0328.html">20250914_0328</a>
+<a href="archive/20250913_0322.html">20250913_0322</a>
+<a href="archive/20250912_0335.html">20250912_0335</a>
+<a href="archive/20250911_0337.html">20250911_0337</a>
+<a href="archive/20250910_0338.html">20250910_0338</a>
+<a href="archive/20250909_0341.html">20250909_0341</a>
+<a href="archive/20250908_0342.html">20250908_0342</a>
+<a href="archive/20250907_0333.html">20250907_0333</a>
+<a href="archive/20250906_0350.html">20250906_0350</a>
+<a href="archive/20250905_0319.html">20250905_0319</a>
+<a href="archive/20250904_0323.html">20250904_0323</a>
+<a href="archive/20250903_0355.html">20250903_0355</a>
+<a href="archive/20250902_0325.html">20250902_0325</a>
+<a href="archive/20250901_0355.html">20250901_0355</a>
+<a href="archive/20250831_0355.html">20250831_0355</a>
+<a href="archive/20250830_0356.html">20250830_0356</a>
+<a href="archive/20250829_0355.html">20250829_0355</a>
+<a href="archive/20250828_0333.html">20250828_0333</a>
+<a href="archive/20250827_1654.html">20250827_1654</a>
+<a href="archive/20250827_1602.html">20250827_1602</a>
+<a href="archive/20250827_1557.html">20250827_1557</a>
+<a href="archive/20250827_0320.html">20250827_0320</a>
+<a href="archive/20250826_0320.html">20250826_0320</a>
+<a href="archive/20250825_1752.html">20250825_1752</a>
+<a href="archive/20250825_1709.html">20250825_1709</a>
+<a href="archive/20250825_1652.html">20250825_1652</a>
+<a href="archive/20250825_1647.html">20250825_1647</a>
+<a href="archive/20250825_1645.html">20250825_1645</a>
+<a href="archive/20250825_1631.html">20250825_1631</a>
+<a href="archive/20250825_1606.html">20250825_1606</a>
+<a href="archive/20250825_1559.html">20250825_1559</a>
+<a href="archive/20250825_1558.html">20250825_1558</a>
+<a href="archive/20250825_1556.html">20250825_1556</a>
+<a href="archive/20250825_1531.html">20250825_1531</a>
+<a href="archive/20250825_1525.html">20250825_1525</a>
+<a href="archive/20250825_1516.html">20250825_1516</a>
+<a href="archive/20250825_1450.html">20250825_1450</a>
+<a href="archive/20250825_1444.html">20250825_1444</a>
+<a href="archive/20250825_1438.html">20250825_1438</a>
+<a href="archive/20250825_1414.html">20250825_1414</a>
+<a href="archive/20250825_1413.html">20250825_1413</a>
+<a href="archive/20250825_1410.html">20250825_1410</a>
+<a href="archive/20250825_1408.html">20250825_1408</a>
+<a href="archive/20250825_1405.html">20250825_1405</a>
+<a href="archive/20250825_1401.html">20250825_1401</a>
+<a href="archive/20250825_1355.html">20250825_1355</a>
+<a href="archive/20250825_1347.html">20250825_1347</a>
+<a href="archive/20250825_1345.html">20250825_1345</a>
+<a href="archive/20250825_1344.html">20250825_1344</a>
+<a href="archive/20250825_1343.html">20250825_1343</a>
+<a href="archive/20250825_1340.html">20250825_1340</a>
+<a href="archive/20250825_1339.html">20250825_1339</a>
+<a href="archive/20250825_1333.html">20250825_1333</a>
+<a href="archive/20250825_1323.html">20250825_1323</a>
+<a href="archive/20250825_1317.html">20250825_1317</a>
+<a href="archive/20250825_1243.html">20250825_1243</a>
+<a href="archive/20250824_0342.html">20250824_0342</a>
+<a href="archive/20250823_0343.html">20250823_0343</a>
+<a href="archive/20250823_0142.html">20250823_0142</a>
+<a href="archive/20250822_2331.html">20250822_2331</a>
+<a href="archive/20250822_2308.html">20250822_2308</a>
+<a href="archive/20250822_2258.html">20250822_2258</a>
+<a href="archive/20250822_2241.html">20250822_2241</a>
+<a href="archive/20250822_2228.html">20250822_2228</a>
+<a href="archive/20250822_2206.html">20250822_2206</a>
+<a href="archive/20250822_2147.html">20250822_2147</a>
+<a href="archive/20250822_2111.html">20250822_2111</a>
+<a href="archive/20250822_1259.html">20250822_1259</a>
+<a href="archive/20250822_1233.html">20250822_1233</a>
+<a href="archive/20250822_1229.html">20250822_1229</a>
+<a href="archive/20250822_1223.html">20250822_1223</a>
+<a href="archive/20250822_1210.html">20250822_1210</a>
+<a href="archive/20250822_1201.html">20250822_1201</a>
+<a href="archive/20250822_1111.html">20250822_1111</a>
+<a href="archive/20250822_1058.html">20250822_1058</a>
+<a href="archive/20250822_1052.html">20250822_1052</a>
+<a href="archive/20250822_1045.html">20250822_1045</a>
+<a href="archive/20250822_0657.html">20250822_0657</a>
+<a href="archive/20250822_0553.html">20250822_0553</a></div>
+    </details>
+    <div class="footer">Generated by arxiv-tracker</div>
+  </div>
+</body></html>
